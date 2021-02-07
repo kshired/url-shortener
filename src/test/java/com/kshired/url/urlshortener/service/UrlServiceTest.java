@@ -12,15 +12,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-@Rollback(value = false)
 public class UrlServiceTest {
     @Autowired
     UrlService urlService;
+    private static final String testUrl = "http://naver.com";
 
     @Test
     public void saveUrlTest() {
         // given
-        Url url = new Url("http://naver.com");
+        Url url = new Url(testUrl);
 
         // when
         Url savedUrl = urlService.save(url);
@@ -34,10 +34,10 @@ public class UrlServiceTest {
     @Test
     public void existUrlTest() {
         // given
-        urlService.save(new Url("http://naver.com"));
+        urlService.save(new Url(testUrl));
 
         // when
-        Boolean result = urlService.existUrl("http://naver.com");
+        Boolean result = urlService.existUrl(testUrl);
 
         // then
         assertThat(result).isTrue();
@@ -46,13 +46,13 @@ public class UrlServiceTest {
     @Test
     public void convertedUrlTest() {
         // given
-        Url url = new Url("http://naver.com");
+        Url url = new Url(testUrl);
         Url savedUrl = urlService.save(url);
 
         // when
         Url findUrl = urlService.findByConverted(savedUrl.getConverted());
 
         // then
-        assertThat(findUrl.getUrl()).isEqualTo("http://naver.com");
+        assertThat(findUrl.getUrl()).isEqualTo(testUrl);
     }
 }
