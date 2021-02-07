@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Url Shortner Home</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<div>
+    단축 시킬 URL (http:// 또는 https:// 포함) <br/> <input id="url_input" text="" />
+    <input type="button" onclick="convert();" value="변경"/>
+</div>
+<div id="result" style="max-width: 1024px;"></div>
+</body>
+</html>
+
+<script type="text/javascript">
+    function convert(){
+        const origin = $("#url_input").val();
+        if(origin != null){
+            $.ajax({
+                type: 'POST',
+                url: "/short-url",
+                data: JSON.stringify({originUrl: origin}),
+                contentType: 'application/json',
+                success: (data) => {
+                    $("#result").html("<p>단축 URL : " + data.convertedUrl + "</p>");
+                }
+            });
+        }
+    }
+</script>
